@@ -1,5 +1,6 @@
 ## Description
 WIP Another power management for GNU/Linux
+
 **(everthing is still in progress, so don't expect it to work properly)**
 
 * helps you to manage your power, lasting your battery life
@@ -18,14 +19,14 @@ Some pwr5's pros over TLP:
 for any application to use, either a cli, ncurses or a Gtk+ client.
 * pwr5 is written in C99 so it's very fast, much faster than bash and perl so every time
 you type a command, you don't have to wait.
-* pwr5 tries to using `sysfs` interface and available library instead of invoking
+* pwr5 tries to use `sysfs` interface and available library instead of invoking
 directly the binary, which is slow and unstable
 * by cutting off some overheads over Perl and Bash scripts, pwr5 is more power efficient.
 A program which manages power have to be power efficient itself, of course.
 
 ## Build and run
 Make sure that you have a working GCC that supports C99 
-(4.8 or newer should be ok) on a recent kernel (3.19 or newer
+(4.8 or newer would be ok) on a recent kernel (3.19 or newer
 should be good)
 
 ## Implemented features
