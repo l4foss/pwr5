@@ -1,0 +1,10 @@
+//pwr5 config
+[common]
+color = on
+tip = on
+
+[battery]
+
+
+[cpu]
+
