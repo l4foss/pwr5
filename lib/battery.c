@@ -1,7 +1,7 @@
 #include "battery.h"
 #include "sysfsutil.h"
 
-static const char *bat_value_files[BAT_INFO_TOTAL_ENTRIES] = {
+static const char *bat_prop_file[BAT_INFO_TOTAL_ENTRY] = {
 	[BAT_INFO_SERIAL_NUMBER] = "serial_number",
 	[BAT_INFO_MANUFACTURER] = "manufacturer",
 	[BAT_INFO_MODEL_NAME] = "model_name",
@@ -40,30 +40,31 @@ BatteryInfo *battery_get_info(int bat) {
 	if (!binfo) {
 		return NULL;
 	}
+
 	bzero(binfo, 0x00);
 	binfo->num = bat;
 	/* Manufacturer */
 	buf = battery_read_property_bufline(bat,
-	                                    bat_value_files[BAT_INFO_MANUFACTURER]);
+	                                    bat_prop_file[BAT_INFO_MANUFACTURER]);
 	memcpy(binfo->manufacturer, buf, strlen(buf));
 	free(buf);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got manufacturer %s\n", binfo->manufacturer);
 #endif
 	buf = battery_read_property_bufline(bat,
-	                                    bat_value_files[BAT_INFO_SERIAL_NUMBER]);
+	                                    bat_prop_file[BAT_INFO_SERIAL_NUMBER]);
 	memcpy(binfo->serialNumber, buf, strlen(buf));
 	free(buf);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got serial number %s\n", binfo->serialNumber);
 #endif
-	buf = battery_read_property_bufline(bat, bat_value_files[BAT_INFO_MODEL_NAME]);
+	buf = battery_read_property_bufline(bat, bat_prop_file[BAT_INFO_MODEL_NAME]);
 	memcpy(binfo->modelName, buf, strlen(buf));
 	free(buf);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got model name %s\n", binfo->modelName);
 #endif
-	buf = battery_read_property_bufline(bat, bat_value_files[BAT_INFO_TECHNOLOGY]);
+	buf = battery_read_property_bufline(bat, bat_prop_file[BAT_INFO_TECHNOLOGY]);
 	memcpy(binfo->technology, buf, strlen(buf));
 	free(buf);
 #ifdef DEBUG_ON
@@ -71,53 +72,53 @@ BatteryInfo *battery_get_info(int bat) {
 #endif
 	/* some long ints */
 	binfo->cycleCount = battery_read_property_ulong(bat,
-	                    bat_value_files[BAT_INFO_CYCLE_COUNT]);
+	                    bat_prop_file[BAT_INFO_CYCLE_COUNT]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got cycle count %d\n", binfo->cycleCount);
 #endif
 	binfo->energyFullDesign = battery_read_property_ulong(bat,
-	                          bat_value_files[BAT_INFO_ENERGY_FULL_DESIGN]);
+	                          bat_prop_file[BAT_INFO_ENERGY_FULL_DESIGN]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got energy full design %d\n", binfo->energyFullDesign);
 #endif
 	binfo->energyFull = battery_read_property_ulong(bat,
-	                    bat_value_files[BAT_INFO_ENERGY_FULL]);
+	                    bat_prop_file[BAT_INFO_ENERGY_FULL]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got energy_full %d\n", binfo->energyFull);
 #endif
 	binfo->energyNow = battery_read_property_ulong(bat,
-	                   bat_value_files[BAT_INFO_ENERGY_NOW]);
+	                   bat_prop_file[BAT_INFO_ENERGY_NOW]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got energy_now %d\n", binfo->energyNow);
 #endif
 	binfo->voltageMinDesign = battery_read_property_ulong(bat,
-	                          bat_value_files[BAT_INFO_VOLTAGE_MIN_DESIGN]);
+	                          bat_prop_file[BAT_INFO_VOLTAGE_MIN_DESIGN]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got voltage_min_design %d\n", binfo->voltageMinDesign);
 #endif
 	binfo->voltageNow = battery_read_property_ulong(bat,
-	                    bat_value_files[BAT_INFO_VOLTAGE_NOW]);
+	                    bat_prop_file[BAT_INFO_VOLTAGE_NOW]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got voltage_now %d\n", binfo->voltageNow);
 #endif
 	binfo->powerNow = battery_read_property_ulong(bat,
-	                  bat_value_files[BAT_INFO_POWER_NOW]);
+	                  bat_prop_file[BAT_INFO_POWER_NOW]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got power_now %d\n", binfo->powerNow);
 #endif
 	binfo->capacity = battery_read_property_ulong(bat,
-	                  bat_value_files[BAT_INFO_CAPACITY]);
+	                  bat_prop_file[BAT_INFO_CAPACITY]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got capacity %d\n", binfo->capacity);
 #endif
 	binfo->capacityLevel = battery_read_property_ulong(bat,
-	                       bat_value_files[BAT_INFO_CAPACITY_LEVEL]);
+	                       bat_prop_file[BAT_INFO_CAPACITY_LEVEL]);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("Got capacity_level %d\n", binfo->capacityLevel);
 #endif
 	/* battery status */
 	buf = battery_read_property_bufline(bat,
-	                                    bat_value_files[BAT_INFO_STATUS]);
+	                                    bat_prop_file[BAT_INFO_STATUS]);
 	if (strcmp(buf, BAT_ST_CHARGING_S) == 0) {
 		binfo->status = BAT_ST_CHARGING;
 	} else if (strcmp(buf, BAT_ST_FULL_S) == 0) {

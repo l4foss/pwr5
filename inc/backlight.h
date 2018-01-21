@@ -2,16 +2,36 @@
 #define BACKLIGHT_H
 
 #include "common.h"
+#include "sysfsutil.h"
 #include <dirent.h>
 
-/*
- * TODO: use software interface (xrandr) as a fallback
- * if case of sysfs interface does not work
+/* 
+ * XCB headers as fallback in case of sysfs interface does
+ * not work
  */
+#include <xcb/xcb.h>
+#include <xcb/xcb_util.h>
+#include <xcb/xproto.h>
+#include <xcb/randr.h>
+
 #define BACKLIGHT_PATH "/sys/class/backlight/"
 #define MAX_BACKLIGHT_NAME 50
 
+enum bltype {
+	BACKLIGHT_TYPE_UNKNOWN,
+	BACKLIGHT_TYPE_HARDWARE,
+	BACKLIGHT_TYPE_SOFTWARE,
+};
+
+enum backlight_prop {
+	BACKLIGHT_INFO_MAX,
+	BACKLIGHT_INFO_NOW,
+
+	BACKLIGHT_TOTAL_ENTRY
+};
+
 typedef struct {
+	int software;
 	uint32_t curr;
 	uint32_t min;
 	uint32_t max;
