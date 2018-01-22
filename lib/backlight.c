@@ -77,7 +77,7 @@ fallback:
 	return backlight_get_info_xrandr();
 
 error:
-
+	PWR5_ERROR("Could not get backlight info");
 	return NULL;
 }
 
@@ -91,6 +91,7 @@ static ulong_t backlight_read_property_ulong(char *name, char *prop) {
 	PWR5_DEBUGA("path: %s\n", path);
 #endif
 	ulong_t ret = util_read_ulong_from_sysfs(path);
+	
 	return ret;
 }
 
@@ -98,9 +99,57 @@ static ulong_t backlight_read_property_ulong(char *name, char *prop) {
  * get backlight info via xrandr
  */
 static BacklightInfo *backlight_get_info_xrandr(void) {
-	struct xcb_connection_t *conn;
-	struct xcb_randr_output_t output;
+	xcb_atom_t backlight;
+	xcb_connection_t *conn;
+	xcb_randr_output_t output;
+	xcb_intern_atom_cookie_t cookie;
+	xcb_intern_atom_reply_t *reply;
 
+	/* This gets the first display, it mays not working properly
+	 * if you have more than one display
+	 * TODO: fix this
+	 */
+	conn = xcb_connect(NULL, NULL);
+	if (!conn) {
+		return NULL;
+	}
+
+	cookie = xcb_intern_atom(conn, 1, strlen(BACKLIGHT_XCB_NEW),
+			BACKLIGHT_XCB_NEW);
+	reply = xcb_intern_atom_reply(conn, cookie, &error);
+	if (error != NULL ||
+			reply == NULL) {
+		goto error;
+	}
+	backlight = reply->atom;
+
+	if (backlight == XCB_NONE) {
+		cookie = xcb_intern_atom(conn, 1, strlen(BACKLIGHT_XCB_NEW),
+				BACKLIGHT_XCB_NEW);
+		reply = xcb_intern_atom_reply(conn, cookie, &error);
+		if (error != NULL ||
+				reply == NULL) {
+			goto error;
+		}
+		backlight = reply->atom;
+	}
+
+	if (backlight == XCB_NONE) {
+		goto error;
+	}
+
+
+	BacklightInfo *binfo = malloc(sizeof(BacklightInfo));
+	if (!binfo) {
+		goto error;
+	}
+
+
+
+error:
+	free(reply);
+	free(conn);
+	return NULL;
 }
 
 

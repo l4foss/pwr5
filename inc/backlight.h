@@ -14,6 +14,9 @@
 #include <xcb/xproto.h>
 #include <xcb/randr.h>
 
+#define BACKLIGHT_XCB_NEW "Backlight"
+#define BACKLIGHT_XCB_LEGACY "BACKLIGHT"
+
 #define BACKLIGHT_PATH "/sys/class/backlight/"
 #define MAX_BACKLIGHT_NAME 50
 
