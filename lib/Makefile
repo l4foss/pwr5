@@ -11,7 +11,8 @@ LDFLAGS = -shared
 
 obj: 
 	$(CC) $(CFLAGS) -c battery.c -o battery.o
-	$(CC) $(CFLAGS) -c util.c -o util.o
+	$(CC) $(CFLAGS) -c sysfsutil.c -o sysfsutil.o
+	$(CC) $(CFLAGS) -c backlight.c -o backlight.o
 
 all:
 	$(LD) $(LDFLAGS) *.o -o $(TARGET)
