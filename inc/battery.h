@@ -78,7 +78,7 @@ enum sysfs_file {
  */
 typedef struct {
 	int num;
-	int status;		/** status string */
+	int status;		/** status */
 
 	char serialNumber[20];
 	char manufacturer[40];  /**< Manufacturer */

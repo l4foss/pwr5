@@ -17,8 +17,9 @@ enum arch {
 	CPU_ARCH_ARM,
 	CPU_ARCH_ARM64
 };
+
 /*
- * common governer for intel and arm cpus
+ * common governer for intel x86_64 and arm cpus
  */
 enum governer {
 	CPU_GOVERNER_POWERSAVE = 1,
