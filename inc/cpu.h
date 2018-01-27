@@ -10,7 +10,12 @@
 #include "common.h"
 
 #define CPU_PATH "/sys/devices/system/cpu/"
+#define CPU_DRIVER_MAX 127
+#define CPU_LINE_MAX 255
 
+/*
+ * others with be added later
+ */
 enum arch {
 	CPU_ARCH_X86,
 	CPU_ARCH_X86_64,
@@ -19,7 +24,7 @@ enum arch {
 };
 
 /*
- * common governer for intel x86_64 and arm cpus
+ * common governers for intel and arm cpus
  */
 enum governer {
 	CPU_GOVERNER_POWERSAVE = 1,
@@ -38,7 +43,7 @@ typedef struct {
 typedef struct {
 	ulong_t min;
 	ulong_t max;
-	char *driver;
+	char driver[CPU_DRIVER_MAX];
 	ulong_t latency;
 } ScalingInfo;
 
@@ -58,9 +63,13 @@ typedef struct {
 	ulong_t turbo_pct;
 } PstateInfo;
 
+/*
+ * @brief CPU info
+ */
 typedef struct {
-	char model[100];
-	char manufacturer[50];
+	char model[CPU_MAX_LINE];
+	char manufacturer[CPU_MAX_LINE];
+	int arch;
 
 	FreqInfo freq;
 	ScalingInfo scaling;
@@ -73,13 +82,63 @@ typedef struct {
 extern "C" {
 #endif
 
+/**
+ * @brief Get cpu info
+ * @param cpu number
+ * @return a pointer to CPUInfo
+ * @return NULL if cpu does not exist
+ */
 CPUInfo *cpu_get_info(int);
+
+/**
+ * @brief Get CPU governer info
+ * @param cpu number
+ * @return a pointer to GovernerInfo
+ * @return NULL if cpu does not exist
+ */
 GovernerInfo *cpu_get_governer_info(int);
+
+/**
+ * @brief Get CPU scaling info
+ * @param cpu number
+ * @return a pointer to ScalingInfo
+ * @return NULL if cpu does not exist
+ */
 ScalingInfo *cpu_get_scaling_info(int);
+
+/**
+ * @brief Get CPU frequency info
+ * @param cpu number
+ * @return a pointer to FreqInfo
+ * @return NULL if cpu does not exist
+ */
 FreqInfo *cpu_get_freq_info(int);
 
+/**
+ * @brief Set CPU governer
+ * @param cpu number
+ * @param governer
+ * @return 0 if success
+ * @return -1 if governer does not available
+ */
 int cpu_set_governer(int, int);
+
+/**
+ * @brief Set CPU scaling max frequency
+ * @param cpu number
+ * @param frequency
+ * return 0 if success
+ * return -1 if failed
+ */
 int cpu_set_scaling_max(int, ulong_t);
+
+/**
+ * @brief Set CPU scaling min frequency
+ * @param cpu number
+ * @param frequency
+ * @return 0 if success
+ * @return -1 if failed
+ */
 int cpu_set_scaling_min(int, ulong_t)
 #ifdef __cplusplus
 }
