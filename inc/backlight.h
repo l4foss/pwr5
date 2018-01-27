@@ -34,7 +34,7 @@ enum backlight_prop {
 };
 
 typedef struct {
-	int software;
+	int type;
 	uint32_t curr;
 	uint32_t min;
 	uint32_t max;
