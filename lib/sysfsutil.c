@@ -88,7 +88,7 @@ ssize_t util_write_ulong_to_sysfs(char *fpath, ulong_t num) {
 	int ret;
 	char buf[MAX_LINE_LEN];
 
-	sprintf(buf, "%d", num);
+	sprintf(buf, "%ld", num);
 #ifdef DEBUG_ON
 	PWR5_DEBUGA("buf is: %s\n", buf);
 #endif
