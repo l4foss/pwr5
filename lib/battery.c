@@ -138,7 +138,7 @@ BatteryInfo *battery_get_info(int bat) {
 }
 
 BatAPI *batapi_get_info(int bat) {
-
+	return NULL;
 }
 
 PowerSourceInfo *battery_detect(void) {
