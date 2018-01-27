@@ -22,7 +22,7 @@ you type a command, you don't have to wait.
 * pwr5 tries to use `sysfs` interface and available library instead of invoking
 directly the binary, which is slow and unstable
 * by cutting off some overheads over Perl and Bash scripts, pwr5 is more power efficient.
-A program which manages power have to be power efficient itself, of course.
+A program which manages power has to be power efficient itself, of course.
 
 ## Build and run
 Make sure that you have a working GCC that supports C99 
