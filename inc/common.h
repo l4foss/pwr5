@@ -30,15 +30,18 @@
 #define PWR5_DEBUG(MSG)
 #else
 #define PWR5_DEBUG(MSG) \
-	do { fprintf(stderr, TERM_WHITE \
-		             "[DEBUG]" TERM_COLOR_X "(%s:%d:%s) %s\n", __FILE__, \
-		             __LINE__, __func__, MSG); } while (0)
+	do { \
+		fprintf(stderr, TERM_WHITE \
+		        "[DEBUG]" TERM_COLOR_X "(%s:%d:%s) %s\n", __FILE__, \
+		        __LINE__, __func__, MSG); } \
+	while (0)
 
 #define PWR5_DEBUGA(fmt, ...) \
 	do { \
-		fprintf(stderr, TERM_WHITE "[DEBUG]" TERM_COLOR_X "(%s:%d:%s) " fmt, \
-		        __FILE__, __LINE__, __func__, \
-		        __VA_ARGS__);} while (0)
+		fprintf(stderr, TERM_WHITE \
+		        "[DEBUG]" TERM_COLOR_X "(%s:%d:%s) " fmt, \
+		        __FILE__, __LINE__, __func__, __VA_ARGS__);} \
+	while (0)
 
 #endif
 
@@ -60,9 +63,10 @@
 	} while (0)
 
 #define PWR5_INFO(MSG) \
-	do { fprintf(stderr, TERM_GREEN \
-		             "[INFO]" TERM_COLOR_X " (%s:%d:%s) %s\n", \
-		             __FILE__, __LINE__, __func__, MSG); \
+	do { \
+		fprintf(stderr, TERM_GREEN \
+		        "[INFO]" TERM_COLOR_X " (%s:%d:%s) %s\n", \
+		        __FILE__, __LINE__, __func__, MSG); \
 	} while (0)
 
 #endif
